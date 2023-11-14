@@ -1,12 +1,16 @@
 import yagmail
 import datetime
 import os
+from datetime import date
 
 def send_email():
     # Defining the filename based on the date
-    date_str = datetime.datetime.now().strftime("%Y-%m-%d")
-    filename = f"/home/bniev/scripts/todos/tasks_{date_str}.txt"
+    #date_str = datetime.datetime.now().strftime("%Y-%m-%d")
+    #filename = f"~/TodoByEmail/todos/tasks_{date_str}.txt"
     
+    date_str = os.path.join(os.path.expanduser("~"),"TodoByEmail","todos")
+    filename = os.path.join(date_str, f"tasks_{date.today()}.txt")
+
     # Check if the file exists
     if not os.path.exists(filename):
         print(f"No notes for {date_str}. Exiting...")
@@ -20,7 +24,7 @@ def send_email():
         contents = f.read()
         yag.send(
             to="nievab@wwu.edu",
-            subject=f"{date_str} Notes",
+            subject=f"{date.today()} Notes",
             contents=contents,
             attachments=filename
         )
